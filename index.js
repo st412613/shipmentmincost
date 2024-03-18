@@ -1,10 +1,15 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express'); // Import express
+const bodyParser = require('body-parser'); // Import body-parser
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
+
+
+// This section represents sample data similar to a database
+
+  // Define centers for products
 
 const center = {
     A:"C1",
@@ -17,7 +22,8 @@ const center = {
     H:"C3",
     I:"C3"
   }
-  
+  // Define weights for products
+
   const weight = {
     A:3,
     B:2,
@@ -30,13 +36,19 @@ const center = {
     I:2
   }
   
+  // Define distances between centers
   const distance = {
     C1:3,
     C2:2.5,
     C3:2
   }
   
+
+  // Business logic to calculate MinCost
+     // Create Function checkMin to calculate minimum cost
   function checkMin(obj){
+
+     // Logic to calculate minCost based on sum and number of elements in obj to reach L1 position
     let sum = 0;
     let minCost=0
     const arr =Object.keys(obj)
@@ -93,10 +105,13 @@ const center = {
        }
      
   }
+  
   return minCost;
 }
-  
+  // Function to determine the center and return the minimum cost
+
   function checkCenter(value){
+    // Assign products to their respective centers and calculate weight at particular center
     const obj = {};
     let sumC1=0;
     let sumC2=0;
@@ -116,7 +131,7 @@ const center = {
       }
       
     }
-    const result = checkMin(obj);
+    const result = checkMin(obj);// Calculate the minimum cost based on the assigned centers to reach L1 position
 
     return result;
   
@@ -124,10 +139,10 @@ const center = {
 
   // Handle POST request
 app.post('/calculateCost', (req, res) => {
-    const order = req.body;
-    let minCost = checkCenter(order);
+    const order = req.body;    // Extract order data from the request body
+    let minCost = checkCenter(order); // Calculate the minimum cost based on the order
 
-    res.json({ minCost });
+    res.json({ minCost }); // Send the minimum cost as a JSON response
 });
 
 const PORT = 3004
